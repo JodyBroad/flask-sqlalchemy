@@ -93,10 +93,14 @@
         <fieldset>
         </fieldset>
     <div class="form-group">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-warning me-md-2 ml-20 btn-lg" type="button"><a href="{{ url_for('clear_cart') }}" style="color:#0A451B">Empty Cart</a></button>
+<!--        left align -->
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <button class="btn btn-secondary me-md-2 ml-2 btn-lg" type="button"><a href="{{ url_for('shop') }}" style="color:white">Back to Shop</a></button>
+<!--    <div class="d-grid gap-2 d-md-flex justify-content-md-end"> right align-->
+        <button class="btn btn-warning me-md-2 ml-2 btn-lg" type="button"><a href="{{ url_for('clear_cart') }}" style="color:#0A451B">Empty Cart</a></button>
 
         </div>
+
     </div>
 
         <div class="mx-auto" style="width: 200px;">
