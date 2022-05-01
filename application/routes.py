@@ -352,28 +352,30 @@ def post(post_id):
 
 # delete blog post - functional in postman, trying to make work on the website
 # something weird happening here, is putting csrf token in browser when you hit the delete button
-@app.route('/delete_blogpost', methods=['GET','DELETE'])
+@app.route('/delete_blogpost', methods=['GET','DELETE', 'POST'])
 # @app.route('/delete_blogpost/<int:blogposts_id>', methods=['GET','DELETE'])
 def delete_blogpost():
     error = ""
     form = DeleteBlogPostForm()
 
-    # if request.method == 'DELETE':
-    #     id_to_delete = form.id.data
-    #     post = BlogPosts.query.get(id=id_to_delete)
-    #     print(post)
-    #     db.session.delete(post)
-    #     db.session.commit()
-    #
-    #     if not post:
-    #         error = "There is no blog post with ID: " + str(form.id.data)
+    if request.method == 'POST':
+        # id_to_delete = form.id.data
+        post = BlogPosts.query.get(form.id.data)
+        # print(post)
+        db.session.delete(post)
+        db.session.commit()
 
-    # else:
-    #
-    #     posts = BlogPosts.query.order_by(BlogPosts.date_posted.desc()).all()
-    #     return render_template('plant_care.html', title='Plant Care', message= error, posts=posts, form=form)
+        # deletion itself works but needs error handling added
+        if not post:
+            error = "There is no blog post with ID: " + str(form.id.data)
 
-    return render_template('delete_blogpost.html', title='Delete a blogpost', message= error, form=form)
+        posts = BlogPosts.query.order_by(BlogPosts.date_posted.desc()).all()
+        flash(f' Blog post with id {form.id.data} deleted!', 'success')
+        return render_template('plant_care.html', title='Plant Care', message=error, posts=posts, form=form)
+
+    else:
+
+        return render_template('delete_blogpost.html', title='Delete a blogpost', message= error, form=form)
 
 # dont think we need this anymore
 # @app.route('/delete_blogpost_info', methods=['GET'])
