@@ -2,14 +2,32 @@
 {% block body_content %}
 
 <!--trying to get update email form and  button working here-->
+
+<h2>Hey there {{ session['logged_in_username'] }}</h2>
+
+<p>If you'd like to change the email address associated with your account please enter it below:</p>
+
+<br>
+
+
+
 <div class="forms">
-    <form action="", method="PUT">
+    <form action="", method="POST">
         {{ form.hidden_tag() }}
         {{ form.csrf_token() }}
         <fieldset>
-            <div class="form-group">
+             <div class="form-group">
                 {{ form.new_email.label(class="form-control-label") }}
-                {{ form.new_email(class="form-control form-control-lg", placeholder="Example@email.com") }}
+                {{ form.new_email(class="form-control form-control-lg", placeholder="example@example.com") }}
+                </div>
+            <div class="form-group">
+                {{ form.confirm_email.label(class="form-control-label") }}
+                {{ form.confirm_email(class="form-control form-control-lg", placeholder="Confirm your email") }}
+                <ul>
+                    {% for error in form.confirm_email.errors %}
+                        <li style="color:red;">{{ error }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </fieldset>
     <div class="form-group">

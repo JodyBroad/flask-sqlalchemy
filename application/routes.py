@@ -351,8 +351,8 @@ def post(post_id):
     return render_template('post.html', post=post)
 
 # delete blog post - functional in postman, trying to make work on the website
-# something weird happening here, is putting csrf token in browser when you hit the delete button
-@app.route('/delete_blogpost', methods=['GET','DELETE', 'POST'])
+
+@app.route('/delete_blogpost', methods=['GET','POST'])
 # @app.route('/delete_blogpost/<int:blogposts_id>', methods=['GET','DELETE'])
 def delete_blogpost():
     error = ""
@@ -870,22 +870,25 @@ def complete_order():
         return render_template('home.html', title='Home', message=error, form=EmailSignUpForm())
     return render_template('complete_order.html', title='Complete Order', message=error, form=form)
 
-@app.route('/update_customer_email', methods=['PUT', 'GET'])
-@app.route('/customer/<int:person_id>/<string:new_email>', methods=['PUT', 'GET'])
+@app.route('/update_customer_email', methods=['POST', 'GET'])
+# @app.route('/customer/<int:person_id>/<string:new_email>', methods=['PUT', 'GET'])
 def update_customer_email():
     error = ""
     form = UpdateEmailForm()
     person_id = session['id_number']
     new_email = form.new_email.data
 
-    if request.method == 'PUT':
+    if form.validate_on_submit():
+        flash(f'Email address update to {form.new_email.data}!', 'success')
+    else:
+        return render_template('update_email.html', form=form)
+
+    if request.method == 'POST':
         person = Person.query.get(person_id)
         person.email = new_email
         db.session.commit()
 
-        flash(f' You have updated your email address!', 'success')
-
-        return render_template('home.html', message=error, title="Home")
+        return redirect(url_for('shop'))
     return render_template('update_email.html', form=form, person_id=person_id, message=error, title='Update Email')
 
 # Victoria's code
