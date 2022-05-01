@@ -351,29 +351,31 @@ def post(post_id):
     return render_template('post.html', post=post)
 
 # delete blog post - functional in postman, trying to make work on the website
-# something weird happening here, is putting csrf token in browser when you hit the delete button
-@app.route('/delete_blogpost', methods=['GET','DELETE'])
+
+@app.route('/delete_blogpost', methods=['GET','POST'])
 # @app.route('/delete_blogpost/<int:blogposts_id>', methods=['GET','DELETE'])
 def delete_blogpost():
     error = ""
     form = DeleteBlogPostForm()
 
-    # if request.method == 'DELETE':
-    #     id_to_delete = form.id.data
-    #     post = BlogPosts.query.get(id=id_to_delete)
-    #     print(post)
-    #     db.session.delete(post)
-    #     db.session.commit()
-    #
-    #     if not post:
-    #         error = "There is no blog post with ID: " + str(form.id.data)
+    if request.method == 'POST':
+        # id_to_delete = form.id.data
+        post = BlogPosts.query.get(form.id.data)
+        # print(post)
+        db.session.delete(post)
+        db.session.commit()
 
-    # else:
-    #
-    #     posts = BlogPosts.query.order_by(BlogPosts.date_posted.desc()).all()
-    #     return render_template('plant_care.html', title='Plant Care', message= error, posts=posts, form=form)
+        # deletion itself works but needs error handling added
+        if not post:
+            error = "There is no blog post with ID: " + str(form.id.data)
 
-    return render_template('delete_blogpost.html', title='Delete a blogpost', message= error, form=form)
+        posts = BlogPosts.query.order_by(BlogPosts.date_posted.desc()).all()
+        flash(f' Blog post with id {form.id.data} deleted!', 'success')
+        return render_template('plant_care.html', title='Plant Care', message=error, posts=posts, form=form)
+
+    else:
+
+        return render_template('delete_blogpost.html', title='Delete a blogpost', message= error, form=form)
 
 # dont think we need this anymore
 # @app.route('/delete_blogpost_info', methods=['GET'])
@@ -894,22 +896,25 @@ def complete_order():
         return render_template('home.html', title='Home', message=error, form=EmailSignUpForm())
     return render_template('complete_order.html', title='Complete Order', message=error, form=form)
 
-@app.route('/update_customer_email', methods=['PUT', 'GET'])
-@app.route('/customer/<int:person_id>/<string:new_email>', methods=['PUT', 'GET'])
+@app.route('/update_customer_email', methods=['POST', 'GET'])
+# @app.route('/customer/<int:person_id>/<string:new_email>', methods=['PUT', 'GET'])
 def update_customer_email():
     error = ""
     form = UpdateEmailForm()
     person_id = session['id_number']
     new_email = form.new_email.data
 
-    if request.method == 'PUT':
+    if form.validate_on_submit():
+        flash(f'Email address update to {form.new_email.data}!', 'success')
+    else:
+        return render_template('update_email.html', form=form)
+
+    if request.method == 'POST':
         person = Person.query.get(person_id)
         person.email = new_email
         db.session.commit()
 
-        flash(f' You have updated your email address!', 'success')
-
-        return render_template('home.html', message=error, title="Home")
+        return redirect(url_for('shop'))
     return render_template('update_email.html', form=form, person_id=person_id, message=error, title='Update Email')
 
 # Victoria's code

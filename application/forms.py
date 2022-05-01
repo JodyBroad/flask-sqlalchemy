@@ -140,6 +140,8 @@ class OrderForm(FlaskForm):
 
 class UpdateEmailForm(FlaskForm):
     new_email = StringField('New email address', validators=[DataRequired()])
+    confirm_email = StringField('Confirm email address',
+                                     validators=[DataRequired(), EqualTo('new_email', message="Email addresses must match")])
     # submit
     submit = SubmitField('Update Email')
 
