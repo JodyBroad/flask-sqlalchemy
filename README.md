@@ -11,7 +11,10 @@ This application is a Python Flask web app that uses Jinja templates and SQLAlch
 - Customers can view their Order History
 - Customers can also update their Email Address
 - Dynamically rendered Shop that can be Filtered on several criteria
-- Fully functional Shopping Basket allowing a Customer to make a purchase and complete an Order - this is then written to the DB for staff to pick and ship.
+- Fully functional Shopping Basket 
+- Can add multiple items, clear cart etc
+- Customer can then Checkout to make a purchase and complete an Order 
+- This is then written to the DB for staff to pick and ship.
 
 ## Setup
 Open MySQL Workbench and create a new database, called for example _team_yellow_.
