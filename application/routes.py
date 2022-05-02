@@ -277,6 +277,16 @@ def plant_form():
         plant_stock = form.plant_stock.data
         plant_type = form.plant_type.data
         plant_size = form.plant_size.data
+        plant_nickname = form.plant_nickname.data
+        plant_info = form.plant_info.data
+        care_tip_1 = form.plant_info.data
+        care_tip_2 = form.care_tip_2.data
+        care_tip_3 = form.care_tip_3.data
+        image_1 = form.image_1.data
+        image_2 = form.image_2.data
+        image_3 = form.image_3.data
+        tech_description = form.tech_description.data
+
 
         if len(plant_category) == 0 \
                 or plant_species == 0\
@@ -289,7 +299,16 @@ def plant_form():
                               stock=plant_stock,
                               category_id=plant_category,
                               plant_type_id=plant_type,
-                              size_id=plant_size)
+                              size_id=plant_size,
+                              plant_nickname=plant_nickname,
+                              general_info=plant_info,
+                              care_tip1=care_tip_1,
+                              care_tip2=care_tip_2,
+                              care_tip3=care_tip_3,
+                              img_link1=image_1,
+                              img_link2=image_2,
+                              img_link3=image_3,
+                              tech_description=tech_description)
             db.session.add(product)
             db.session.commit()
             return render_template('plant_form.html', title='Register a Plant', message=error, form=form)
