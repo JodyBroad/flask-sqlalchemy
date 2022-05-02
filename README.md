@@ -5,6 +5,7 @@ This application is a Python Flask web app that uses Jinja templates and SQLAlch
 - Register as a new Customer
 - Log in as Staff or Customer
 - A basic dynamically generated Blog
+- Functional Search Bar
 - Staff can add new Staff, Customers, Plants or Blogposts
 - Staff can delete Blogposts
 - Staff can run queries on Staff, Customer Orders, Stock and Orders to be Shipped
