@@ -466,9 +466,10 @@ def view_cart():
     error = ""
     # form was set to AddToCart() but trying to get ordering working
     form = OrderForm()
+    # query to pull the address from the database to show as the confirmation message before ordering
     customer_address = db.session.query(Person, Address).select_from(Person). \
         join(Address).filter(Person.id == session['id_number']).all()
-    # print(customer_address)
+
     if 'cart' in session:
         cart_contents = session['cart']
     else:
@@ -477,7 +478,7 @@ def view_cart():
     headings = ('Image', 'Plant Name', 'Species', 'Price', 'Quantity', 'Sub-Total')
 
 
-    return render_template('cart.html', title='Cart', form=form, message=error, cart_contents=cart_contents, headings=headings, customer_address=customer_address)
+    return render_template('cart.html', title='Cart', form=form, message=error, cart_contents=cart_contents, headings=headings, customer_address=customer_address, scroll='cart_top')
     # return render_template('add_to_cart.html', form=form, message=error, title='home')
 
 # empty cart (but will stay logged in)
