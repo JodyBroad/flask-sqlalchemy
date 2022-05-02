@@ -2,29 +2,14 @@
 # the database
 # NOTE! The database MUST exist before we try to connect to it
 
-# add one extra table for newsletter signup - just email
-
 from application import db
-# from application.models import Person, Car  # Victoria's code
+
 from application.models import BlogPosts, Newsletter, PersonType, UserLogin,  Address, StaffInfo, Person, OrderStatus, \
     Category, PlantType, Size,\
     Product, OrderHeader, OrderLine
 
-# Staff,Customer,
-# these are the 12 tables we want to create in order:
-# PersonType, UserLogin, Address, Person, OrderStatus, Category, PlantType, Size, Product,
-# OrderHeader, OrderLine
-
-# create our database schema
-# db.create_all()
-
 db.drop_all()
 db.create_all()
-
-# will need to use the db.session.add() code below to add the data - use lists as Victoria has below to make it easier?
-# then need db.session.commit() to actually save it to the database
-# once this code is populated, running it seperately should make everything appear in the database!
-
 
 # Blogposts table
 blog1 = BlogPosts(author='The Plant Doctor', date_posted='2022-01-01', title='Welcome', post_content='Hi, we are the '
@@ -89,7 +74,7 @@ person4 = Person(first_name='Roy', last_name='Kent', email='roy.kent@afc_richmon
 person5 = Person(first_name='Sam', last_name='Obisanya', email='sam.obisanya@afc_richmond.co.uk', address_id=1,
                      phone_number='07889578112', user_login_id=5, person_type_id=2)
 person6 = Person(first_name='Natasha', last_name='Edun', email='natasha@plantemporium.com', address_id=4,
-                     phone_number='07777777777',user_login_id=6, person_type_id=1, staff_info_id=1)
+                     phone_number='07777777777', user_login_id=6, person_type_id=1, staff_info_id=1)
 person7 = Person(first_name='Jodie', last_name='Smith', email='jodie@plantemporium.com', address_id=4,
                      phone_number='07777777777', user_login_id=7, person_type_id=1, staff_info_id=2)
 person8 = Person(first_name='Jody', last_name='Broad', email='jody@plantemporium.com', address_id=4,
@@ -97,7 +82,6 @@ person8 = Person(first_name='Jody', last_name='Broad', email='jody@plantemporium
 person9 = Person(first_name='Isabel', last_name='Tulloch', email='isabel@plantemporium.com', address_id=4,
                      phone_number='07777777777', user_login_id=9, person_type_id=1, staff_info_id=4)
 persons = [person1, person2, person3, person4, person5, person6, person7, person8, person9]
-
 
 # order status
 status1 = OrderStatus(status_description='Ordered')
@@ -107,12 +91,10 @@ status4 = OrderStatus(status_description='Collected')
 status5 = OrderStatus(status_description='Returned')
 status = [status1, status2, status3, status4, status5]
 
-
 # category
 category1 = Category(category_description='Indoor')
 category2 = Category(category_description='Outdoor')
 categories = [category1, category2]
-
 
 # plant type table
 plant1 = PlantType(plant_type_description='Cacti/Succulent')
@@ -121,7 +103,6 @@ plant3 = PlantType(plant_type_description='Flowering')
 plant4 = PlantType(plant_type_description='Palms')
 plant5 = PlantType(plant_type_description='Ferns')
 plant_types = [plant1, plant2, plant3, plant4, plant5]
-
 
 # size
 size1 = Size(size_description='Tiny')
@@ -143,18 +124,16 @@ product9 = Product(species='Hydrangea Macrophylla', price=29.99, stock=5, catego
 product10 = Product(species='Alstroemeria', price=27, stock=8, category_id=2, plant_type_id=4, size_id=1, plant_nickname="Victoria", general_info="Lily of the Incas", care_tip1="Light watering", care_tip2="Bright light", care_tip3="Warmth", img_link1="images/alstromeria_pink.jpg", img_link2="images/alstromeria_purple.jpg", img_link3="images/alstromeria_yellow.jpg", tech_description="Victoria Lloyd is a leading coding instructor, currently teaching women from across the UK how to code. She leads numerous cohorts of women looking to career switch, upskill and kickstart their coding journey, mentoring and advising on how to access the technology and software development fields.")
 products = [product1, product2, product3, product4, product5, product6, product7, product8, product9, product10]
 
-
 # OrderHeader linking to person only (as customer)
-order1 = OrderHeader(person_id=1, order_date='2022-04-09', status_id=1, total_cost=54.00) # staff_id=1)
-order2 = OrderHeader(person_id=2, order_date='2022-04-10', status_id=4, total_cost=26.97) # staff_id=2)
-order3 = OrderHeader(person_id=3, order_date='2022-04-12', status_id=3, total_cost=197.97) # staff_id=3)
-order4 = OrderHeader(person_id=4, order_date='2022-04-16', status_id=4, total_cost=20.00) # staff_id=4)
-order5 = OrderHeader(person_id=1, order_date='2022-04-19', status_id=4, total_cost=195.00) #staff_id=1)
-order6 = OrderHeader(person_id=4, order_date='2022-04-18', status_id=5, total_cost=105.00) #staff_id=1)
-order7 = OrderHeader(person_id=4, order_date='2022-04-21', status_id=3, total_cost=172.48) #staff_id=1)
-order8 = OrderHeader(person_id=4, order_date='2022-04-30', status_id=1, total_cost=12) #staff_id=1)
+order1 = OrderHeader(person_id=1, order_date='2022-04-09', status_id=1, total_cost=54.00)  # staff_id=1)
+order2 = OrderHeader(person_id=2, order_date='2022-04-10', status_id=4, total_cost=26.97)  # staff_id=2)
+order3 = OrderHeader(person_id=3, order_date='2022-04-12', status_id=3, total_cost=197.97)  # staff_id=3)
+order4 = OrderHeader(person_id=4, order_date='2022-04-16', status_id=4, total_cost=20.00)  # staff_id=4)
+order5 = OrderHeader(person_id=1, order_date='2022-04-19', status_id=4, total_cost=195.00)  # staff_id=1)
+order6 = OrderHeader(person_id=4, order_date='2022-04-18', status_id=5, total_cost=105.00)  # staff_id=1)
+order7 = OrderHeader(person_id=4, order_date='2022-04-21', status_id=3, total_cost=172.48)  # staff_id=1)
+order8 = OrderHeader(person_id=4, order_date='2022-04-30', status_id=1, total_cost=12)  # staff_id=1)
 plant_orders = [order1, order2, order3, order4, order5, order6, order7, order8]
-
 
 # orderLine
 order_line1 = OrderLine(order_header_id=1, product_id=10, quantity=2, price_paid=54.00)
@@ -187,28 +166,4 @@ db.session.add_all(products)
 db.session.add_all(plant_orders)
 db.session.add_all(order_lines)
 
-
-
 db.session.commit()
-
-# Victoria's Code:
-
-# testPerson1 = Person(first_name='Julie', last_name='Dooley')
-# testPerson2 = Person(first_name='Victoria', last_name='Lloyd')
-#
-# car1 = Car(number_plate='JU21DOO', person_id=1, colour='Red', make="Ferrari", model='V12')
-# car2 = Car(number_plate='JU20XXX', person_id=1, colour='Black', make="Mercedes-Benz", model='CLS')
-# car3 = Car(number_plate='VL21LLO', person_id=2, colour='Grey', make="Ford", model='Focus')
-#
-# cars = [car1, car2, car3]
-# # car4 = Car(number_plate='BART21', person_id=3)
-#
-# db.session.add(testPerson1)
-# db.session.add(testPerson2)
-# # db.session.add(car1)
-# # db.session.add(car2)
-# # db.session.add(car3)
-#
-# db.session.add_all(cars)
-# # db.session.add(car4)
-# db.session.commit()

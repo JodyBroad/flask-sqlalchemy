@@ -2,12 +2,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField, DateField, IntegerField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 
-# need form to do email newsletter sign up
-
 class EmailSignUpForm(FlaskForm):
     email = StringField('Email')
     submit = SubmitField('Sign Up')
-
 
 def validate_username(form, field):
     excluded_chars = " *?!'^+%&/()=}][{$#"
@@ -38,14 +35,11 @@ class CustomerRegistrationForm(FlaskForm):
     # submit
     submit = SubmitField('Sign Up')
 
-
-
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email(message='Please supply a valid email')])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
-
 
 # as staff are now a type of person, this form gets a bit more complicated, needs to link to userlogin, address,
 # person and staff info tables to be functional (can set persontype to '1' which is staff in the routes)
@@ -74,10 +68,8 @@ class StaffRegistrationForm(FlaskForm):
     # submit
     submit = SubmitField('Register New Staff Member')
 
-
 class PlantForm(FlaskForm):
     # plant_name = StringField('Plant Name', validators=[DataRequired()])
-    #removed plant_name field as not sure it was necessary, can add again if needed. Had to completely remove from html file as form would not work with it commented out, was still picking up on the website after submitting the form"
     plant_species = StringField('Plant Species', validators=[DataRequired()])
     plant_type = SelectField('Type', choices=[('1', 'Cacti/Succulent'), ('2', 'Hanging'), ('3', 'Flowering'), ('4', 'Palms'), ('5', 'Ferns')], validators=[DataRequired()])
     plant_category = SelectField('Categories', choices=[('1', 'Indoor'), ('2', 'Outdoor')])
@@ -121,7 +113,6 @@ class LogInForm(FlaskForm):
 # add to cart
 class AddToCartForm(FlaskForm):
     product = SelectField('Species', choices=[(1, 'Boston Fern'), (2, 'Aloe Vera'), (3, 'Parlour Palm')])
-    # product = SelectField('Species', choices=['Boston Fern', 'Aloe Vera', 'Parlour Palm'])
     quantity = IntegerField('Quantity', validators=[DataRequired()])
     # price =
     submit = SubmitField('Add to cart')

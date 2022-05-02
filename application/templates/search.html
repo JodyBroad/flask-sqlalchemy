@@ -10,4 +10,11 @@
  <a href="post/{{ post.id }}">{{post.title}}</a><br>
 {% endfor %}
 
+{% if not posts %}
+<div class="container-404">
+<p> Sorry, we couldn't find what you were looking for! </p>
+<img class="bg obj-fit-cover" src="{{url_for('static',filename='images/dead_plant_3.jpg')}}" alt="dead flowers">
+</div>
+{% endif %}
+
 {% endblock %}
