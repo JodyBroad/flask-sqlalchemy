@@ -87,7 +87,13 @@
 
 
 <h2> Placing an order </h2>
-<p> When you click Place Order your order is placed using the contact details linked to your account.</p>
+<p> When you click Place Order your order is placed using the contact details linked to your account. Your order will be sent to:</p>
+{% for item in customer_address %}
+    {{ item.address_line_one }}
+    {{ item.address_line_two }}
+    {{ item.address_line_three }}
+    {{ item.postcode }}
+{% endfor %}
 
 
 
