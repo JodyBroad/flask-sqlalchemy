@@ -46,14 +46,18 @@
 {% for post in posts %}
 <div class="card-deck"  style="width: 30rem">
   <div class="card my-4" >
-     {% if post.id == 1 %}
-    <img class="card-img-top"  src="{{url_for('static',filename='images/lifestyle3.jpg')}}" alt="Card image cap">
+       {% if post.id == 1 %}
+    <img class="card-img-top"  src="{{url_for('static',filename='images/lifestyle3.jpg')}}" alt="plant">
      {% elif post.id == 2 %}
-    <img class="card-img-top" src="{{url_for('static',filename='images/lifestyle1.jpg')}}" alt="Card image cap">
+    <img class="card-img-top" src="{{url_for('static',filename='images/lifestyle1.jpg')}}" alt="plant">
       {% elif post.id == 3 %}
-    <img class="card-img-top" src="{{url_for('static',filename='images/green_leaves.jpg')}}" alt="Card image cap">
+    <img class="card-img-top" src="{{url_for('static',filename='images/dead_plant_2.jpg')}}" alt="plant">
+      {% elif post.id == 4 %}
+    <img class="card-img-top" src="{{url_for('static',filename='images/green_leaves.jpg')}}" alt="plant">
+      {% elif post.id == 5 %}
+    <img class="card-img-top" src="{{url_for('static',filename='images/lifestyle5.jpg')}}" alt="plant">
       {% else %}
-    <img class="card-img-top" src="{{url_for('static',filename='images/general_rose_2.jpg')}}" alt="Card image cap">
+    <img class="card-img-top" src="{{url_for('static',filename='images/general_rose_2.jpg')}}" alt="plant">
       {% endif %}
 
 

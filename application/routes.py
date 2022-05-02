@@ -28,72 +28,77 @@ def email_signup_form():
             return render_template('home.html', form=form, message=error, title='home')
     return render_template('home.html', form=form, message=error, title='home')
 
-
-# LINKS TO PLANT HTML PAGES
-
 @app.route('/about', methods=['GET'])
 def about():
     return render_template('about.html', title='About')
-
 
 @app.route('/contact_us', methods=['GET'])
 def contact():
     return render_template('contact_us.html', title='Contact Us')
 
+@app.route('/plant_care', methods=['GET'])
+def plant_care():
+    posts = BlogPosts.query.order_by(BlogPosts.date_posted.desc()).all()
+    return render_template('plant_care.html', title='Plant Care', posts=posts)
 
-# @app.route('/shop', methods=['GET'])
-# def shop():
-#     return render_template('shop.html', title='Shop')
+@app.route('/addpost', methods=['GET', 'POST'])
+def addpost():
+    error = ""
+    form = NewBlogPostForm()
 
+    if form.validate_on_submit():
+        flash(f' New Blog Post created called {form.title.data}!', 'success')
 
-@app.route('/plant1', methods=['GET'])
-def plant1():
-    return render_template('plant1.html', title='Plant 1')
+    if request.method == 'POST':
+        title = form.title.data
+        author = form.author.data
+        post_content = form.post_content.data
+        if len(title) == 0\
+                or len(author) == 0\
+                or len(post_content) == 0:
+            error = "Please complete the fields"
+        else:
+            post = BlogPosts(title=title, author=author, post_content=post_content, date_posted=date.today())
+            db.session.add(post)
+            db.session.commit()
+            posts = BlogPosts.query.order_by(BlogPosts.date_posted.desc()).all()
+            return render_template('plant_care.html', title='Plant Care', posts=posts)
 
+    return render_template('addpost.html', message= error, form=form)
 
-@app.route('/plant2', methods=['GET'])
-def plant2():
-    return render_template('plant2.html', title='Plant 2')
+# display specific blog post
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    post = BlogPosts.query.filter_by(id=post_id).one()
 
+    return render_template('post.html', post=post)
 
-@app.route('/plant3', methods=['GET'])
-def plant3():
-    return render_template('plant3.html', title='Plant 3')
+# delete blog post
 
+@app.route('/delete_blogpost', methods=['GET','POST'])
+# @app.route('/delete_blogpost/<int:blogposts_id>', methods=['GET','DELETE'])
+def delete_blogpost():
+    error = ""
+    form = DeleteBlogPostForm()
 
-@app.route('/plant4', methods=['GET'])
-def plant4():
-    return render_template('plant4.html', title='Plant 4')
+    if request.method == 'POST':
+        # id_to_delete = form.id.data
+        post = BlogPosts.query.get(form.id.data)
+        # print(post)
+        db.session.delete(post)
+        db.session.commit()
 
+        # deletion itself works but needs error handling added
+        if not post:
+            error = "There is no blog post with ID: " + str(form.id.data)
 
-@app.route('/plant5', methods=['GET'])
-def plant5():
-    return render_template('plant5.html', title='Plant 5')
+        posts = BlogPosts.query.order_by(BlogPosts.date_posted.desc()).all()
+        flash(f' Blog post with id {form.id.data} deleted!', 'success')
+        return render_template('plant_care.html', title='Plant Care', message=error, posts=posts, form=form)
 
+    else:
 
-@app.route('/plant6', methods=['GET'])
-def plant6():
-    return render_template('plant6.html', title='Plant 6')
-
-
-@app.route('/plant7', methods=['GET'])
-def plant7():
-    return render_template('plant7.html', title='Plant 7')
-
-
-@app.route('/plant8', methods=['GET'])
-def plant8():
-    return render_template('plant8.html', title='Plant 8')
-
-
-@app.route('/plant9', methods=['GET'])
-def plant9():
-    return render_template('plant9.html', title='Plant 9')
-
-
-@app.route('/plant10', methods=['GET'])
-def plant10():
-    return render_template('plant10.html', title='Plant 10')
+        return render_template('delete_blogpost.html', title='Delete a blogpost', message= error, form=form)
 
 
 # CUSTOMER RELATED ROUTES:
@@ -167,8 +172,6 @@ def register():
 
 
 # ACCESSING A LIST OF CUSTOMERS
-# This is functional
-
 
 @app.route('/customer_list', methods=['GET'])
 def show_customers():
@@ -255,20 +258,6 @@ def show_staff():
     #     print(customer)
     return render_template('staff_list.html', staff=staff, message=error)
 
-
-# DELETE STAFF ACCOUNTS - currently provides error message 'method not allowed'
-# @app.route('/staff/<int:staff_id>', methods=['DELETE'])
-# def delete_staff(staff_id):
-#     error = ""
-#     staff = Staff.query.get(staff_id)
-#     db.session.delete(staff)
-#     db.session.commit()
-#     staff = Staff.query.all()
-#     if not staff:
-#         error = "There is no staff with ID: " + str(staff_id)
-#         print(staff)
-#     return render_template('staff_deletion.html', staff=staff, message=error, title="Delete Staff")
-
 # REGISTERING A NEW PLANT:
 
 
@@ -305,83 +294,6 @@ def plant_form():
             db.session.commit()
             return render_template('plant_form.html', title='Register a Plant', message=error, form=form)
     return render_template('plant_form.html', title='Register a Plant', message=error, form=form)
-
-# ACCESSING A LIST OF PLANTS:
-# to do
-# DELETING PLANTS WE NO LONGER STOCK:
-# to do
-
-
-
-@app.route('/plant_care', methods=['GET'])
-def plant_care():
-    posts = BlogPosts.query.order_by(BlogPosts.date_posted.desc()).all()
-    return render_template('plant_care.html', title='Plant Care', posts=posts)
-
-@app.route('/addpost', methods=['GET', 'POST'])
-def addpost():
-    error = ""
-    form = NewBlogPostForm()
-
-    if form.validate_on_submit():
-        flash(f' New Blog Post created called {form.title.data}!', 'success')
-
-    if request.method == 'POST':
-        title = form.title.data
-        author = form.author.data
-        post_content = form.post_content.data
-        if len(title) == 0\
-                or len(author) == 0\
-                or len(post_content) == 0:
-            error = "Please complete the fields"
-        else:
-            post = BlogPosts(title=title, author=author, post_content=post_content, date_posted=date.today())
-            db.session.add(post)
-            db.session.commit()
-            posts = BlogPosts.query.order_by(BlogPosts.date_posted.desc()).all()
-            return render_template('plant_care.html', title='Plant Care', posts=posts)
-
-    return render_template('addpost.html', message= error, form=form)
-
-# display specific blog post
-@app.route('/post/<int:post_id>')
-def post(post_id):
-    post = BlogPosts.query.filter_by(id=post_id).one()
-
-    return render_template('post.html', post=post)
-
-# delete blog post - functional in postman, trying to make work on the website
-
-@app.route('/delete_blogpost', methods=['GET','POST'])
-# @app.route('/delete_blogpost/<int:blogposts_id>', methods=['GET','DELETE'])
-def delete_blogpost():
-    error = ""
-    form = DeleteBlogPostForm()
-
-    if request.method == 'POST':
-        # id_to_delete = form.id.data
-        post = BlogPosts.query.get(form.id.data)
-        # print(post)
-        db.session.delete(post)
-        db.session.commit()
-
-        # deletion itself works but needs error handling added
-        if not post:
-            error = "There is no blog post with ID: " + str(form.id.data)
-
-        posts = BlogPosts.query.order_by(BlogPosts.date_posted.desc()).all()
-        flash(f' Blog post with id {form.id.data} deleted!', 'success')
-        return render_template('plant_care.html', title='Plant Care', message=error, posts=posts, form=form)
-
-    else:
-
-        return render_template('delete_blogpost.html', title='Delete a blogpost', message= error, form=form)
-
-# dont think we need this anymore
-# @app.route('/delete_blogpost_info', methods=['GET'])
-# def delete_blogpost_info():
-#     return render_template('delete_blogpost.html', title='Delete Blog post')
-
 
 # session variables - login
 
@@ -500,7 +412,7 @@ def add_to_cart():
 
         flash(' Please Login to make a purchase', 'danger')
         return redirect(url_for('login'))
-        return render_template('login.html', title='Home', form=form, message=error)
+        # return render_template('login.html', title='Home', form=form, message=error)
         # return render_template('add_to_cart.html', form=form, message=error, title='home')
 
     headings = ('Image', 'Plant Name', 'Species', 'Price', 'Quantity', 'Sub-Total')
@@ -548,7 +460,7 @@ def add_to_cart():
     return render_template('cart_success.html', title='Cart', form=form, message=error, attributeObject=attributeObject, cart_contents=session['cart'], headings=headings, scroll='cart_top')
     # return render_template('cart.html', title='Cart', form=form, message=error, cart_contents=session['cart'], headings=headings)
 
-# view cart (currently very basic!)
+# view cart
 @app.route('/cart', methods=['GET', 'POST'])
 def view_cart():
     error = ""
@@ -575,24 +487,6 @@ def clear_cart():
 
     flash(f' You have emptied your cart!', 'success')
     return render_template('home.html', title='Home', form=form, message=error,)
-
-# to get dynamic pricing in the drop down on the add to cart form for one item - in progress (abandoned)
-# @app.route('/price/<int:product_id>')
-# def get_price(product_id):
-#     attributes = Product.query.filter_by(id=product_id).all()
-#
-#     priceList = []
-#
-#     for attribute in attributes:
-#         attributeObject ={}
-#         attributeObject['id'] = attribute.id
-#         attributeObject['species'] = attribute.species
-#         attributeObject['price'] = attribute.price
-#         attributeObject['plant_nickname'] = attribute.plant_nickname
-#         priceList.append(attributeObject)
-#
-#     # return ({'price_value': priceList})
-#     return render_template('cart.html', title='Cart', priceList=priceList)
 
 
 # error handling - custom 404 page
@@ -647,7 +541,7 @@ def plant(plant_id):
 
 # STAFF ACCESS QUERIES
 
-# QUERY - in progress: staff and corresponding job titles
+# QUERY - staff and corresponding job titles
 # Gives list of staff members and their job titles
 @app.route('/staff_jobs', methods=['GET'])
 def staff_jobs():
@@ -655,8 +549,6 @@ def staff_jobs():
     staff_and_jobs = db.session.query(StaffInfo, Person).join(Person).all()
     headings = ('Job Title', 'First Name', 'Last Name', 'Email')
 
-    # for job, staff in staff_and_jobs:
-    #     print(job.job_title, staff.first_name, staff.last_name)
     return render_template('staff_jobs.html', staff_and_jobs=staff_and_jobs, message=error, headings=headings)
 
 
@@ -688,11 +580,9 @@ def stock_list():
         join(Category).join(PlantType).join(Size).order_by(Product.species.asc()).all()
     return render_template('stock_list.html', title='Stock List', plant_shop_plant=plant_shop_plant, headings=headings)
 
-
-
 # CUSTOMER ACCESS QUERIES
 
-# PLANT SHOP PAGE - IN PROGRESS
+# PLANT SHOP PAGE
 
 # MAIN SHOP PAGE
 @app.route('/shop', methods=['GET'])
@@ -707,8 +597,6 @@ def product_store(product_id):
 
     return render_template('plant.html', plant=plant)
 
-
-
 # QUERY: Indoor plants
 @app.route('/indoor_plants', methods=['GET'])
 def show_indoor_plants():
@@ -717,7 +605,6 @@ def show_indoor_plants():
         join(Category).join(PlantType).join(Size).filter(Category.id == 1).order_by(Product.price.desc()).all()
     return render_template('shop.html', display_indoor_plants=display_indoor_plants, message=error, scroll='filters')
 
-
 # QUERY: Outdoor plants
 @app.route('/outdoor_plants', methods=['GET'])
 def show_outdoor_plants():
@@ -725,7 +612,6 @@ def show_outdoor_plants():
     display_outdoor_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Category.id == 2).order_by(Product.price.desc()).all()
     return render_template('shop.html', display_outdoor_plants=display_outdoor_plants, message=error, scroll='filters')
-
 
 # QUERY: filter by height - tiny
 @app.route('/tiny_plants', methods=['GET'])
@@ -839,7 +725,7 @@ def show_premium_range():
     return render_template('shop.html', display_premium_range=display_premium_range, message=error, scroll='filters')
 
 
-# Place an Order in progress, need to work out how to get the data out of the shopping cart
+# Place an Order
 @app.route('/complete_order', methods=['GET', 'POST'])
 def complete_order():
     error = ""
@@ -878,13 +764,12 @@ def complete_order():
         #     error = "Please complete each section of this form"
         # else:
 
-        # it is so close to working! just not autopopulating the order_header id
+
         order_header = OrderHeader(person_id=person_id, order_date=order_date, status_id=status_id,
                                    total_cost=total_cost)
 
         order_line = OrderLine(order_header=order_header, product_id=product_id, quantity=quantity, price_paid=price_paid)
-        # print("order header", order_header)
-        # print("order line", order_line)
+
 
         db.session.add(order_header)
         db.session.add(order_line)
@@ -917,113 +802,3 @@ def update_customer_email():
 
         return redirect(url_for('shop'))
     return render_template('update_email.html', form=form, person_id=person_id, message=error, title='Update Email')
-
-# Victoria's code
-# def register_basic_form():
-#     error = ""
-#     form = BasicForm()
-#
-#     if request.method == 'POST':
-#         first_name = form.first_name.data
-#         last_name = form.last_name.data
-#
-#         if len(first_name) == 0 or len(last_name) == 0:
-#             error = "Please supply both first and last name"
-#         else:
-#             person = Person(first_name=first_name, last_name=last_name)
-#             db.session.add(person)
-#             db.session.commit()
-#             return 'Thank you!'
-#     return render_template('home.html', form=form, message=error, title='home')
-
-# @app.route('/cars', methods=['GET'])
-# def show_cars():
-#     error = ""
-#     cars = Car.query.all()
-#     if len(cars) == 0:
-#         error = "There are no cars to display"
-#         print(cars)
-#     return render_template('cars.html', cars=cars, message=error, title="Car")
-
-# @app.route('/people', methods=['GET'])
-# def show_people():
-#     error = ""
-#     people = Person.query.all()
-#     if len(people) == 0:
-#         error = "There are no people to display"
-#         print(people)
-#     return render_template('people.html', people=people, message=error)
-#
-#
-# @app.route('/people/<int:person_id>', methods=['GET'])
-# def show_person(person_id):
-#     error = ""
-#     # use filter_by for any column
-#     # person = Person.query.filter_by(id=person_id).first()
-#     #  use get for the PK
-#     person = Person.query.get(person_id)
-#
-#     # simpsons = Person.query.filter_by(last_name="simpson").all()
-#
-#     # to sort
-#     # simpsons = Person.query.filter_by(last_name="simpson").order_by(Person.first_name).all()
-#     # descending sort
-#     # simpsons = Person.query.filter_by(last_name="simpson").order_by(Person.first_name.desc()).all()
-#     # limit to top 2 simpsons
-#     simpsons = Person.query.filter_by(last_name="simpson").order_by(Person.first_name).limit(2).all()
-#     if not person:
-#         error = "There is no person with ID: " + str(person_id)
-#         print(person)
-#     return render_template('person.html', person=person, message=error, title="Person", family=simpsons)
-#
-#
-# @app.route('/people/<int:person_id>', methods=['PUT'])
-# def update_person(person_id):
-#     error = ""
-#     person = Person.query.get(person_id)
-#     person.last_name = "Flanders"
-#     db.session.commit()
-#     if not person:
-#         error = "There is no person with ID: " + str(person_id)
-#         print(person)
-#     return render_template('person.html', person=person, message=error, title="Person", family=[])
-#
-#
-# @app.route('/people/<int:person_id>/<string:new_last_name>', methods=['PUT'])
-# def update_person_with_name(person_id, new_last_name):
-#     error = ""
-#     person = Person.query.get(person_id)
-#     person.last_name = new_last_name
-#     db.session.commit()
-#     if not person:
-#         error = "There is no person with ID: " + str(person_id)
-#         print(person)
-#     return render_template('person.html', person=person, message=error, title="Updated Person", family=[])
-#
-#
-# @app.route('/people/<int:person_id>', methods=['DELETE'])
-# def delete_person(person_id):
-#     error = ""
-#     person = Person.query.get(person_id)
-#     db.session.delete(person)
-#     db.session.commit()
-#     people = Person.query.all()
-#     if not person:
-#         error = "There is no person with ID: " + str(person_id)
-#         # print(person)
-#     return render_template('people.html', people=people, message=error, title="People")
-#
-#
-# @app.route('/personandcars/<int:person_id>', methods=['GET'])
-# def people_and_cars(person_id):
-#     error = ""
-#     person = Person.query.get(person_id)
-#     # cars= person.cars
-#     if not person:
-#         error = "There is no person with ID: " + str(person_id)
-#         print(person)
-#         # print(person_and_carinfo)
-#     return render_template('person_and_cars.html', person=person, message=error, title="Person and Car Info")
-#
-#     # return render_template('home.html', form=form, message=error)
-

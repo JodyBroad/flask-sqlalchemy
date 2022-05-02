@@ -8,8 +8,6 @@ class BlogPosts(db.Model):
     title = db.Column(db.String(50), nullable=False)
     post_content = db.Column(db.String(1000), nullable=False)
 
-
-
 # Newsletter signup
 class Newsletter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -142,21 +140,3 @@ class OrderLine(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     # also what is best data type for price data?
     price_paid = db.Column(db.Integer)
-
-
-# Victoria's code:
-
-# class Person(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     first_name = db.Column(db.String(30), nullable=False)
-#     last_name = db.Column(db.String(30), nullable=False)
-#     cars = db.relationship('Car', backref='person')
-#
-#
-# class Car(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     number_plate = db.Column(db.String(7), nullable=False)
-#     colour = db.Column(db.String(10), nullable=False)
-#     make = db.Column(db.String(20), nullable=False)
-#     model = db.Column(db.String(20), nullable=False)
-#     person_id = db.Column(db.Integer, db.ForeignKey('person.id'), nullable=False)

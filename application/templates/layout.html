@@ -257,8 +257,8 @@
             </a>
 <!--              update these links once we have the routes set up-->
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Indoor</a>
-              <a class="dropdown-item" href="#">Outdoor</a>
+              <a class="dropdown-item" href="{{ url_for('show_indoor_plants') }}">Indoor</a>
+              <a class="dropdown-item" href="{{ url_for('show_outdoor_plants') }}">Outdoor</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{{ url_for('shop') }}">All plants</a>
             </div>
