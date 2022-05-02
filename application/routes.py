@@ -545,7 +545,7 @@ def add_to_cart():
     else:
         session['cart'] = [attributeObject]
 
-    return render_template('cart_success.html', title='Cart', form=form, message=error, attributeObject=attributeObject, cart_contents=session['cart'], headings=headings)
+    return render_template('cart_success.html', title='Cart', form=form, message=error, attributeObject=attributeObject, cart_contents=session['cart'], headings=headings, scroll='cart_top')
     # return render_template('cart.html', title='Cart', form=form, message=error, cart_contents=session['cart'], headings=headings)
 
 # view cart (currently very basic!)
@@ -715,7 +715,7 @@ def show_indoor_plants():
     error = ""
     display_indoor_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Category.id == 1).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_indoor_plants=display_indoor_plants, message=error)
+    return render_template('shop.html', display_indoor_plants=display_indoor_plants, message=error, scroll='filters')
 
 
 # QUERY: Outdoor plants
@@ -724,7 +724,7 @@ def show_outdoor_plants():
     error = ""
     display_outdoor_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Category.id == 2).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_outdoor_plants=display_outdoor_plants, message=error)
+    return render_template('shop.html', display_outdoor_plants=display_outdoor_plants, message=error, scroll='filters')
 
 
 # QUERY: filter by height - tiny
@@ -733,7 +733,7 @@ def show_tiny_plants():
     error = ""
     display_tiny_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Size.id == 1).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_tiny_plants=display_tiny_plants, message=error)
+    return render_template('shop.html', display_tiny_plants=display_tiny_plants, message=error, scroll='filters')
 
 # QUERY: filter by height - small
 @app.route('/small_plants', methods=['GET'])
@@ -741,7 +741,7 @@ def show_small_plants():
     error = ""
     display_small_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Size.id == 2).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_small_plants=display_small_plants, message=error)
+    return render_template('shop.html', display_small_plants=display_small_plants, message=error, scroll='filters')
 
 # QUERY: filter by height - medium
 @app.route('/medium_plants', methods=['GET'])
@@ -749,7 +749,7 @@ def show_medium_plants():
     error = ""
     display_medium_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Size.id == 3).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_medium_plants=display_medium_plants, message=error)
+    return render_template('shop.html', display_medium_plants=display_medium_plants, message=error, scroll='filters')
 
 
 # QUERY: filter by height - tall
@@ -758,7 +758,7 @@ def show_tall_plants():
     error = ""
     display_tall_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Size.id == 4).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_tall_plants=display_tall_plants, message=error)
+    return render_template('shop.html', display_tall_plants=display_tall_plants, message=error, scroll='filters')
 
 
 # QUERY: filter by type - cactus / succulent
@@ -767,7 +767,7 @@ def show_cacti_succulent_plants():
     error = ""
     display_cacti_succulent_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(PlantType.id == 1).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_cacti_succulent_plants=display_cacti_succulent_plants, message=error)
+    return render_template('shop.html', display_cacti_succulent_plants=display_cacti_succulent_plants, message=error, scroll='filters')
 
 
 # QUERY: filter by type - hanging
@@ -776,7 +776,7 @@ def show_hanging_plants():
     error = ""
     display_hanging_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(PlantType.id == 2).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_hanging_plants=display_hanging_plants, message=error)
+    return render_template('shop.html', display_hanging_plants=display_hanging_plants, message=error, scroll='filters')
 
 
 # QUERY: filter by type - flowering
@@ -785,7 +785,7 @@ def show_flowering_plants():
     error = ""
     display_flowering_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(PlantType.id == 3).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_flowering_plants=display_flowering_plants, message=error)
+    return render_template('shop.html', display_flowering_plants=display_flowering_plants, message=error, scroll='filters')
 
 
 # QUERY: filter by type - palm
@@ -794,7 +794,7 @@ def show_palm_plants():
     error = ""
     display_palm_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(PlantType.id == 4).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_palm_plants=display_palm_plants, message=error)
+    return render_template('shop.html', display_palm_plants=display_palm_plants, message=error, scroll='filters')
 
 
 # QUERY: filter by type - fern
@@ -803,7 +803,7 @@ def show_fern_plants():
     error = ""
     display_fern_plants = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(PlantType.id == 5).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_fern_plants=display_fern_plants, message=error)
+    return render_template('shop.html', display_fern_plants=display_fern_plants, message=error, scroll='filters')
 
 # QUERY: filter by price
 @app.route('/value_savers', methods=['GET'])
@@ -811,7 +811,7 @@ def show_value_saver():
     error = ""
     display_value_saver = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Product.price < 10).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_value_saver=display_value_saver, message=error)
+    return render_template('shop.html', display_value_saver=display_value_saver, message=error, scroll='filters')
 
 # QUERY: filter by price
 @app.route('/modest_picks', methods=['GET'])
@@ -819,7 +819,7 @@ def show_modest_picks():
     error = ""
     display_modest_picks = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Product.price < 25).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_modest_picks=display_modest_picks, message=error)
+    return render_template('shop.html', display_modest_picks=display_modest_picks, message=error, scroll='filters')
 
 # QUERY: filter by price
 @app.route('/fancy_picks', methods=['GET'])
@@ -827,7 +827,7 @@ def show_fancy_picks():
     error = ""
     display_fancy_picks = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Product.price < 55).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_fancy_picks=display_fancy_picks, message=error)
+    return render_template('shop.html', display_fancy_picks=display_fancy_picks, message=error, scroll='filters')
 
 
 # QUERY: filter by price
@@ -836,7 +836,7 @@ def show_premium_range():
     error = ""
     display_premium_range = db.session.query(Product, Category, PlantType, Size).select_from(Product). \
         join(Category).join(PlantType).join(Size).filter(Product.price > 56).order_by(Product.price.desc()).all()
-    return render_template('shop.html', display_premium_range=display_premium_range, message=error)
+    return render_template('shop.html', display_premium_range=display_premium_range, message=error, scroll='filters')
 
 
 # Place an Order in progress, need to work out how to get the data out of the shopping cart
@@ -890,6 +890,7 @@ def complete_order():
         db.session.add(order_line)
 
         db.session.commit()
+        #  clears the cart as transaction is complete
         session.pop('cart', default=None)
         flash(f' Order successfully placed, enjoy your new plant friends!', 'success')
 

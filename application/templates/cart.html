@@ -10,7 +10,13 @@
 <div class="container-fluid bg-1 text-center">
 <!--if cart is not empty basically-->
 {% if cart_contents != [] %}
-    <h3>What good taste you have! Currently in your cart:</h3>
+    <a name="cart_top"><h3>What good taste you have! Currently in your cart:</h3></a>
+<!--    jumps down the page to save excess scrolling -->
+    {% if scroll %}
+    <script>
+    document.location.hash = '#' + '{{ scroll }}';
+    </script>
+    {% endif %}
 
     <div class="table-responsive table-striped">
         <table class="table">
@@ -95,7 +101,7 @@
     <div class="form-group">
 <!--        left align -->
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-        <button class="btn btn-secondary me-md-2 ml-2 btn-lg" type="button"><a href="{{ url_for('shop') }}" style="color:white">Back to Shop</a></button>
+        <button class="btn btn-secondary me-md-2 ml-2 btn-lg" type="button"><a href="{{ url_for('shop', _anchor='filters') }}" style="color:white">Back to Shop</a></button>
 <!--    <div class="d-grid gap-2 d-md-flex justify-content-md-end"> right align-->
         <button class="btn btn-warning me-md-2 ml-2 btn-lg" type="button"><a href="{{ url_for('clear_cart') }}" style="color:#0A451B">Empty Cart</a></button>
 
