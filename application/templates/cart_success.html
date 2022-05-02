@@ -9,7 +9,12 @@
 
 <div class="container-fluid bg-1 text-center">
 
-    <h2> You just added to your cart: </h2>
+    <a name="cart_top"><h2> You just added to your cart: </h2></a>
+      {% if scroll %}
+    <script>
+    document.location.hash = '#' + '{{ scroll }}';
+    </script>
+    {% endif %}
 
         <div class="table-responsive">
             <table class="table">
@@ -140,7 +145,7 @@
 <p> Click Checkout when you have everything that you need! </p>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-  <button class="btn btn-secondary me-md-2 ml-2 btn-lg" type="button"><a href="{{ url_for('shop') }}" style="color:white">Back to Shop</a></button>
+  <button class="btn btn-secondary me-md-2 ml-2 btn-lg" type="button"><a href="{{ url_for('shop', _anchor='filters') }}" style="color:white">Back to Shop</a></button>
 <!--    <div class="d-grid gap-2 d-md-flex justify-content-md-end">-->
   <button class="btn btn-warning me-md-2 ml-2 btn-lg" type="button"><a href="{{ url_for('clear_cart') }}" style="color:#0A451B">Empty Cart</a></button>
 

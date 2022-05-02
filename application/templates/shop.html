@@ -14,10 +14,7 @@
 {% if session['logged_in_username'] %}
 <hr>
     <h1>Welcome {{ session['logged_in_username'] }}!</h1>
-    <h2> Are you logged in? That is {{ session['logged_in'] }}</h2>
-    <h3>What type of log in is it? You are logged in as {{ session['typesession'] }}</h3>
-<!-- not currently able to get the person ID extracted into a number -->
-    <h4>Your Person ID is {{ session['id_number'] }}</h4>
+
 <br>
 <hr>
 {% else %}
@@ -29,7 +26,13 @@
 <hr>
 {% endif %}
 
-<h5>Filter by:</h5>
+<a name="filters"><h5>Filter by:</h5></a>
+
+{% if scroll %}
+<script>
+    document.location.hash = '#' + '{{ scroll }}';
+</script>
+{% endif %}
 <!-- Indoor/Outdoor dropdown -->
 <div class="btn-group">
   <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
@@ -147,7 +150,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -217,7 +220,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -287,7 +290,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -357,7 +360,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -426,7 +429,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -496,7 +499,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -565,7 +568,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -634,7 +637,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -703,7 +706,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -772,7 +775,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -841,7 +844,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -911,7 +914,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -982,7 +985,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -1052,7 +1055,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -1123,7 +1126,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
@@ -1194,7 +1197,7 @@
                         <td>{{ category.category_description}}</td>
                         <td>{{ plant_type.plant_type_description}}</td>
                         <td>{{ size.size_description}}</td>
-                      <td><strong>£{{ product.price }}<strong></strong></td>
+                      <td><strong>£{{ product.price }}</strong></td>
                 </tr>
                  {% endfor %}
                 <tr>
