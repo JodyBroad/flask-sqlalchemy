@@ -6,9 +6,14 @@
 
 <p>{{ searched }}</p>
 <br>
+
+{% if posts %}
+<h3>Your search results are:</h3>
 {% for post in posts %}
+
  <a href="post/{{ post.id }}">{{post.title}}</a><br>
 {% endfor %}
+{% endif %}
 
 {% if not posts %}
 <div class="container-404">
