@@ -2,17 +2,26 @@
 {% block body_content %}
 
 <br>
-<h2>You Searched For...</h2>
+<h2>You searched for...</h2>
 
-<p>{{ searched }}</p>
+<p>"{{ searched }}"</p>
 <br>
 
 {% if posts %}
 <h3>Your search results are:</h3>
 {% for post in posts %}
+<div class="table-responsive table-striped">
+        <table class="table">
+         <tbody>
+          <tr>
+           <td><a href="post/{{ post.id }}">{{post.title}}</a></td>
+           {% endfor %}
+          </tr>
+         </tbody>
+        </table>
+</div>
+             <br>
 
- <a href="post/{{ post.id }}">{{post.title}}</a><br>
-{% endfor %}
 {% endif %}
 
 {% if not posts %}
